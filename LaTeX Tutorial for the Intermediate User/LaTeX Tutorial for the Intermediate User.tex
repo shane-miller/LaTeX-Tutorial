@@ -1,0 +1,410 @@
+% !TEX TS-program = pdflatexmk
+\documentclass{article}
+
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\hypersetup{
+	colorlinks = true,
+	linktoc = all,
+	linkcolor = blue,
+	urlcolor = blue
+}
+
+\title{\LaTeX{} Tutorial for the Intermediate User}
+\author{Shane Miller}
+
+\newcolumntype{b}{>{\hsize=1.7\hsize}X}
+\newcolumntype{s}{>{\hsize=.3\hsize}X}
+
+\tolerance = 1
+\hyphenpenalty = 10000
+
+\begin{document}
+	\pagenumbering{gobble}
+	\maketitle
+	\newpage
+
+	\tableofcontents
+	\newpage
+
+	\pagenumbering{arabic}
+	\section{Document Formatting}
+		\begin{itemize}
+			\item To format a document, you need to add options to your $\backslash$documentclass declaration.
+			\item If you don\rq{}t set anything in the options section, they will default to whatever the environment default on your machine is.
+			\begin{itemize}
+				\item The two most common defaults are 10pt font, and letter paper size.
+			\end{itemize}
+			\item To add options for your documentclass, you need to add \lq\lq{}[options here]\rq\rq{} between your documentclass declaration and your class parameter.
+			\begin{itemize}
+				\item Here\rq{}s how that would look: $\backslash$documentclass[options here]{class here}.
+			\end{itemize}
+			\item The main options are as follows:
+		\end{itemize}
+			\def\arraystretch{1.1}
+			\begin{tabularx}{\textwidth}{| s | b |}
+				\hline
+				10pt, 11pt, et cetera & Sets the size of the main font in the document.\\
+				\hline
+				letterpaper, a4paper, legalpaper, et cetera & Defines the paper size for the document.\\
+				\hline
+				fleqn & Display formulas left-aligned rather than centered.\\
+				\hline
+				leqno & Places the numbering of formulas on the left-hand side rather than the right.\\
+				\hline
+				titlepage, notitlepage &Specifies whether a new page should be started after the document title or not. The article class does not start a new page by default, while report and book do.\\
+				\hline
+				twocolumn & Instructs LaTeX to typeset the document in two columns instead of one.\\
+				\hline
+				twoside, oneside & Specifies whether double or single sided output should be generated. The classes article and report are single sided and the book class is double sided by default. Note that this option concerns the style of the document only. The twoside option does not tell the printer you use that it should actually make a two-sided printout. \\
+				\hline
+				landscape & Changes the orientation of the document to landscape. \\
+				\hline
+				openright, openany & Makes chapters begin either only on right hand pages or on the next page available. This does not work with the article class, as it does not know about chapters. The report class by default starts chapters on the next page available and the book class starts them on right hand pages.\\
+				\hline
+				draft & Makes LaTeX indicate hyphenation and justification problems with a small square in the right-hand margin of the problem line so they can be located quickly by a human. It also suppresses the inclusion of images and shows only a frame where they would normally occur.\\
+				\hline
+			\end{tabularx}
+		\begin{itemize}
+			\item Here is an example of what you would write if you wanted a two-columned, double-sided article with 12pt font on landscape size A4 paper:
+			\begin{itemize}
+				\item $\backslash$documentclass[12pt, a4paper, landscape, twocolumn, twoside]\{article\}
+				\item Note: the order of the options does not matter.
+			\end{itemize}
+		\end{itemize}
+	
+	\section{Tables}
+		\begin{itemize}
+			\item In this tutorial, I am only going to go over the \lq\lq{}basics\rq\rq{} of how to make a table. If you need to do something not included in this tutorial, please see the \href{https://en.wikibooks.org/wiki/LaTeX/Tables}{\textbf{\LaTeX{} WikiBooks table page}}.
+		\end{itemize}
+		\subsection{The Table Environment}
+			\subsubsection{Setting-up the Table Environment}
+				\begin{itemize}
+					\item To begin making a table you may want to start by using the table environment. 
+					\begin{itemize}
+						\item Although it isn\rq{}t necessary, it can sometimes be useful.
+						\item Throughout this document, I never used the table environment because it was not necessary to format my tables.
+					\end{itemize}
+					\item The table environment is used to set-up various table settings.
+					\item To declare the table environment you would use $\backslash$begin\{table\} and $\backslash$end\{table\}.	
+				\end{itemize}
+				
+			\subsubsection{Formatting Your Table}
+				\begin{itemize}
+					\item After you declare your table environment, you can use options to set the table location.
+					\begin{itemize}
+						\item This can be done by modifying your declaration to look like this:
+						\begin{itemize}
+							\item $\backslash$begin\{table\}[location option]
+						\end{itemize}
+						\item The list of possible positions are as follows:\\\\
+						\def\arraystretch{1.4}
+						\begin{tabularx}{\textwidth}{| l | X |}
+							\hline
+							h & Where the table is declared (here).\\
+							\hline
+							t & At the top of the page.\\
+							\hline
+							b & At the bottom of the page.\\
+							\hline
+							p & On a dedicated page of floats (objects such as tables and pictures).\\
+							\hline
+							! & Override the default float restrictions.\\
+							\hline
+						\end{tabularx}\\
+						\item The \lq\lq{}!\rq\rq{} option tries to force \LaTeX{} to use one given position based on what option you chose, but will not force it if it is impossible.
+						\item You can use more than one position option. Doing this will treat it as a \lq\lq{}wishlist\rq\rq{} where \LaTeX{} will go through each one in order trying to see if the table fits well in that position.
+						\item If you don\lq{}t set any position option, the default is /textit{tbp}.
+						\item If you choose not to have a table environment, you can set the location option on the environment you actually use to create the table, but in most cases, you will not need to set the position if you aren\rq{}t using the table environment.
+					\end{itemize}
+					\item To center your table in the given space, you can use $\backslash$centering.
+					\begin{itemize}
+						\item $\backslash$centering should be added inside your table environment, but just before you create your table.
+					\end{itemize}
+
+					\item To add a title to your table, use $\backslash$caption.
+					\begin{itemize}
+						\item If you choose to have a title for your table, this command typically is added directly after your table environment declaration.
+					\end{itemize}
+					\item Another thing you can add in the table environment is a reference label.
+					\begin{itemize}
+						\item A reference label allows you to reference the table just like you would any other reference.
+						\item The command for a reference label looks like this:
+						\begin{itemize}
+							\item $\backslash$label\{table:AddTableReferenceNameHere\}
+						\end{itemize}
+					\end{itemize}
+				\end{itemize}
+		
+		\subsection{Creating Your Table}
+			\begin{itemize}
+				\item When creating your table, there are five options:
+				\begin{itemize}
+					\item tabular
+					\item tabularx
+					\item tabulary
+					\item tabular*
+					\item tabu
+				\end{itemize}
+				\item In this tutorial, I will only be going over tabular and tabularx.
+				\item For information related to tabulary, please see \href{https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular*_environment}{\textbf{here}}.
+				\item For information related to tabular*, please see \href{https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular*_environment}{\textbf{here}}.		
+				\item For information related to tabu, please see \href{https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabu_environment}{\textbf{here}} and \href{http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/tabu/tabu.pdf}{\textbf{here}}.
+			\end{itemize}
+			
+			\subsubsection{tabular}
+				\begin{itemize}
+					\item tabular is the original table maker. tabularx, tabulary, tabular*, and tabu are all spinoffs of tabular.
+					\item To use tabular, you would set up the tabular environment using $\backslash$begin\{tabular\}[pos]\{table specifications\} and $\backslash$end\{tabular\} where [pos] is optional.
+					\item If you would like to define the height each row should be you can add the command $\backslash$def$\backslash$arraystretch\{insert number here\} just above where you set up the tabular environment. The default value is 1, so 1.5 would be 150\% taller.
+					\item Table Specifications:
+					\begin{itemize}
+						\item The table specifications are where you define the layout of your table.
+						\item The options are as follows:\\\\
+						\def\arraystretch{1.4}
+						\begin{tabularx}{\textwidth}{| l | X |}
+							\hline
+							l & Left-justified column.\\
+							\hline
+							c & Centered column.\\
+							\hline
+							r & Right-justified column.\\
+							\hline
+							p\{\lq{}width\rq{}\} & Paragraph column with text vertically aligned at the top.\\
+							\hline
+							m\{\lq{}width\rq{}\} & Paragraph column with text vertically aligned in the middle (requires the package \textit{array}.\\
+							\hline
+							b\{\lq{}width\rq{}\} & Paragraph column with text vertically aligned at the bottom (requires the package \textit{array}.\\
+							\hline
+							\textbar & Vertical line.\\
+							\hline
+							\textbar\textbar & Double vertical line.\\
+							\hline
+						\end{tabularx}\\
+						\item For example, if you wanted a table with three centered columns separated by vertical lines, you would use $\backslash$begin\{tabular\}\{c \textbar{} c \textbar{} c\}.
+						\item Tables in \LaTeX{} will not automatically wrap text in calls and will overrun the width of the page if long enough. For these columns that will contain long texts, it is recommended to use a paragraph column.
+						\begin{itemize}
+							\item To specify length of a paragraph column, you would include it using \{enter length here\}.
+							\item Specifying a p column with a size of 5cm will look like this: p\{5cm\}
+						\end{itemize}
+					\end{itemize}
+					\item Table Content:
+					\begin{itemize}
+						\item Your table content will go inside of your tabular environment.
+						\item Each line can be thought of as a row (while this isn\rq{}t entirely correct, it is how it is most often used and is the easiest way to actually write them).
+						\item In each row, you can use these commands to define where your content should go in your table:\\\\
+						\def\arraystretch{1.4}
+						\begin{tabularx}{\textwidth}{| l | X |}
+							\hline
+							\& & Column separator.\\
+							\hline
+							$\backslash$$\backslash$ & Start new row.\\
+							\hline
+							$\backslash$hline & Horizontal line.\\
+							\hline
+							$\backslash$newline & Start a new line within a cell (in a paragraph column).\\
+							\hline
+							$\backslash$cline\{i-j\} & Partial horizontal line beginning in column i and ending in column j.\\
+							\hline
+						\end{tabularx}\\
+						\item Using the three column example from earlier, if we wanted the numbers 1, 2, and 3 to be in each column respectively, you would use 1 \& 2 \& 3$\backslash$$\backslash$ for the row.
+					\end{itemize}
+					\item  Example Table:\\\\
+					\begin{tabular}{| c | c | c |}
+						\hline
+						1 & 2 & 3\\
+						\hline
+						4 & 5 & 6\\
+						\hline
+						7 & 8 & 9\\
+						\hline
+					\end{tabular}\\
+					\item For the example table above, the code is as follows:
+					\begin{verbatim}
+						\begin{tabular}{| c | c | c |}
+						      \hline
+						      1 & 2 & 3\\
+						      \hline
+						      4 & 5 & 6\\
+						      \hline
+						      7 & 8 & 9\\
+						      \hline
+						\end{tabular}\\
+					\end{verbatim}
+				\end{itemize}
+			
+			\subsubsection{tabularx}
+				\begin{itemize}
+					\item To use tabularx, you need to add $\backslash$usepackage\{tabularx\} to your document's preamble.
+					\item tabularx adds a new column type X.
+					\begin{itemize}
+						\item The X specifier defines a column to stretch to make the table as wide as specified.
+					\end{itemize}
+					\item When using tabularx, you need to define your table width when you create your tabularx environment.
+					\begin{itemize}
+						\item Setting up a tabularx environment for a table half the width of what a line of text is with two equal-length columns with a vertical line between them would look like this: $\backslash$begin\{tabularx\}\{0.5$\backslash$textwidth\}\{X \textbar{} X\}
+					\end{itemize}
+					\item Other than a that and couple of things less-important things I won\rq{}t be going over in this tutorial, tabularx functions the same as tabular. Everything in the tabular section applies to this section as well.
+					\item Please see \href{https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabularx_package}{\textbf{here}} for more tabularx information.
+				\end{itemize}
+	
+	\section{Images}
+		\subsection{The Figure Environment}
+			\begin{itemize}
+				\item The figure environment is where you set up your image details.
+				\item If you only have one image to include, then this is also where you include your image.
+				\begin{itemize}
+					\item If you have more than one image to include in this area, then you actually will use subfigure to include the images. I will go over this in more detail soon.
+				\end{itemize}
+				\item To begin, you \textbf{\textit{need}} to use the package graphicx, otherwise nothing will work.
+				\begin{itemize}
+					\item You can add the package by adding $\backslash$usepackage\{graphicx\} to your preamble.
+				\end{itemize}
+				\item To create the figure environment, you would use $\backslash$begin\{figure\} and $\backslash$end\{figure\}.
+				\begin{itemize}
+					\item On the begin, you can include a position option in the same way as a table. Just in case you haven\rq{}t read that section of this tutorial, I will include the details again below.
+					\item Setting the figure environment position can be done by modifying your declaration to look like this:
+						\begin{itemize}
+							\item $\backslash$begin\{figure\}[location option]
+						\end{itemize}
+					\item The list of possible positions are as follows:\\\\
+					\def\arraystretch{1.4}
+					\begin{tabularx}{\textwidth}{| l | X |}
+						\hline
+						h & Where the figure is declared (here).\\
+						\hline
+						t & At the top of the page.\\
+						\hline
+						b & At the bottom of the page.\\
+						\hline
+						p & On a dedicated page of floats (objects such as tables and pictures).\\
+						\hline
+						! & Override the default float restrictions.\\
+						\hline
+					\end{tabularx}\\
+					\item The \lq\lq{}!\rq\rq{} option tries to force \LaTeX{} to use one given position based on what option you chose, but will not force it if it is impossible.
+					\item You can use more than one position option. Doing this will treat it as a \lq\lq{}wishlist\rq\rq{} where \LaTeX{} will go through each one in order trying to see if the image fits well in that position.
+					\item If you don\lq{}t set any position option, the default is \textit{tbp}.
+				\end{itemize}	
+			\end{itemize}
+		
+		\subsection{Adding the Image}
+			\begin{itemize}
+				\item To include an image you need to use $\backslash$includegraphics to define the image width and file location. This will look like this:
+				\begin{itemize}
+					\item $\backslash$includegraphics[width = width option]\{file location\}
+				\end{itemize}
+				\item Typically, when defining the width it\rq{}s easiest to use $\backslash$linewidth as a basis.
+				\begin{itemize}
+					\item $\backslash$linewidth is the width of the left-most text can be to the right-most margin.
+					\item Adding a number before $\backslash$linewidth acts as a multiplier. 0.4$\backslash$linewidth would be 40\% of the width of the page.
+					\item Images will scale to be the defined width. If they are smaller, they will expand to the correct size. And if they are larger, they will shrink to the correct size.
+				\end{itemize}
+				\item When defining your file location, it\rq{}s usually easiest to include a folder named \lq\lq{}images\rq\rq{} where your document is stored to include all your images. This way, this file location will look like \lq\lq{}images/image\_name\rq\rq{}.
+			\end{itemize}
+		
+		\subsection{Subfigures}
+			\begin{itemize}
+				\item Using subfigures allows you to include more than one image in a defined area.
+				\item When using subsfigures, you should use the package \textit{subcaption} in addition to \textit{graphicx}.
+				\item Subfigures work the same way as regular figures do. The only difference if you put the subfigure environment in the figure environment.
+				\begin{itemize}
+					\item You can make the subfigure environment using $\backslash$begin\{subfigure\} and $\backslash$end\{subfigure\}.
+				\end{itemize}
+				\item Please see the examples below to better understand how a subfigure fits into the figure environment.
+			\end{itemize}
+
+		\newpage
+		\subsection{Image Examples}
+			\subsubsection{Single Image}
+				\begin{itemize}
+					\item Example Image:
+				\end{itemize}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=0.5\linewidth]{images/LaTeXLogo.jpg}
+					\caption{The \LaTeX{} Logo}
+				\end{figure}
+				\begin{itemize}
+					\item The code for the image above is as follows:
+					\begin{verbatim}
+						\begin{figure}[h!]
+						      \centering
+						      \includegraphics[width=0.5\linewidth]{images/LaTeXLogo.jpg}
+						      \caption{The \LaTeX{} Logo}
+						\end{figure}
+					\end{verbatim}
+				\end{itemize}
+
+			\newpage
+			\subsubsection{Two Images}
+				\begin{itemize}
+					\item Example Images:
+				\end{itemize}
+				\begin{figure}[h!]
+					\centering
+					\begin{subfigure}[b]{0.4\linewidth}
+						\includegraphics[width=0.8\linewidth]{images/LaTeXLogo.jpg}
+						\caption{The \LaTeX{} Logo}
+					\end{subfigure}
+					\begin{subfigure}[b]{0.4\linewidth}
+						\includegraphics[width=0.8\linewidth]{images/LaTeXLogo.jpg}
+						\caption{The \LaTeX{} Logo}
+					\end{subfigure}
+					\caption{Two Images Side-by-Side}
+				\end{figure}
+				\begin{itemize}
+					\item The code for the images above are as follows:
+					\begin{verbatim}
+						\begin{figure}[h!]
+						      \centering
+						      \begin{subfigure}[b]{0.4\linewidth}
+						            \includegraphics[width=0.8\linewidth]{images/LaTeXLogo.jpg}
+						            \caption{The \LaTeX{} Logo}
+						      \end{subfigure}
+						      \begin{subfigure}[b]{0.4\linewidth}
+						            \includegraphics[width=0.8\linewidth]{images/LaTeXLogo.jpg}
+						            \caption{The \LaTeX{} Logo}
+						      \end{subfigure}
+						      \caption{Two Images Side-by-Side}
+						\end{figure}
+					\end{verbatim}
+				\end{itemize}
+	
+	\newpage
+	\section{KOMA-Script}
+		\begin{itemize}
+			\item In this tutorial I will not be going over exactly how to use KOMA-Script. Instead, I will explain what it is and why it is used. In addition to that, I will link the KOMA-Script manual.
+			\item KOMA-Script is used as a replacement for the default document classes that \LaTeX{} comes with.
+			\item Most \TeX{} editors will come with KOMA-Script pre-installed and ready to use, but that doesn\rq{}t necessarily mean every editor will have it.
+			\begin{itemize}
+				\item You can find out if it is or isn\rq{}t installed by either checking your installed packages or simply trying to use it.
+				\begin{itemize}
+					\item If you try the latter and it isn\rq{}t installed, then it may either install it for you or throw an error depending on the \TeX{} editor you are using.
+					\item If it throws an error, you will need to manually install it using your editor's console.
+				\end{itemize}
+			\end{itemize}
+			\item KOMA-Script consolidates a lot of the class-specific features in the regular document classes.
+			\begin{itemize}
+				\item For example, $\backslash$subtitle can\rq{}t be used in the regular article document class, but can be used in KOMA-Script's article document class.
+			\end{itemize}
+			\item Additionally, KOMA-Script already includes some packages, so you wouldn\rq{}t need to use $\backslash$usepackage for those packages.
+			\item It is often used in the \LaTeX{} community as most people see KOMA-Script as a better alternative to the regular document classes with little to no downside.
+			\item The KOMA-Script document classes are not necessary to use. None of these tutorials were written using the a KOMA-Script document class, but I have written other documents using them. You\rq{}ll have to decide for yourself if you want to use them.
+			\item For more information, please check out the translated KOMA-Script Manual \href{http://texdoc.net/texmf-dist/doc/latex/koma-script/scrguien.pdf}{\textbf{here}}.
+		\end{itemize}
+	
+	\newpage
+	\section{Other Resources}
+		\begin{itemize}
+			\item \href{https://www1.maths.leeds.ac.uk/latex/TableHelp1.pdf}{\textbf{University of Leeds Table Help Doc}}
+			\item \href{https://en.wikibooks.org/wiki/LaTeX}{\textbf{\LaTeX{} WikiBooks Home Page}}
+			\item \href{https://en.wikibooks.org/wiki/LaTeX/Tables}{\textbf{\LaTeX{} WikiBooks Table Page}}
+			\item \href{https://www.latex-tutorial.com/tutorials/figures/}{\textbf{\LaTeX{} Tutorial Figures Page}}
+			\item \href{http://texdoc.net/texmf-dist/doc/latex/koma-script/scrguien.pdf}{\textbf{KOMA-Script Manual}}
+			\item The .tex file included in the zip for this document has everything that was used to write this tutorial. Please look through it to see how things in this document were used in practice.
+		\end{itemize}
+\end{document}
